@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var matchedButtons = [Int]()
     @State private var moves = 0
     
-    let m = Models(activeMode: Modes.easy)
+    @Binding var m : Models //= Models(activeMode: Modes.easy)
     
     var body: some View {
         VStack{
@@ -29,15 +29,13 @@ struct ContentView: View {
                         .font(.largeTitle)
                             .padding(8)
                             .frame(maxWidth: gp.size.width/2, minHeight:  (gp.size.height - 80)/m.rows)
-                            
                     })
                     .background(self.matchedButtons.contains(index) ? Color.white : //(self.selectedButtons.contains(index)  ? Color.green  : Color.purple) )
                                      Color.purple)
                     .frame(maxWidth: gp.size.width/2, maxHeight: .infinity)
-                    
-                    
                   }
                 }
+               
             .padding()
             }
             
@@ -53,10 +51,21 @@ struct ContentView: View {
                    .background(Color.white)
                                
             }
+//            .onReceive(){
+//                self.selectedButtons = []
+//                self.matchedButtons = []
+//                self.moves = 0
+//            }
+//            .onChange(of: m.activeMode.description, perform: {
+//                self.selectedButtons = []
+//                self.matchedButtons = []
+//                self.moves = 0
+//            })
             .padding(8)
             .frame(maxHeight: 60,alignment: .bottom)
             .background(Color.green)
         }
+       
 
     }
     
@@ -104,7 +113,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
+            ContentView(m: .constant(Models(activeMode: Modes.easy)) )
+            //ContentView( )
                 .previewDevice("iPhone 12 Pro Max")
           
         }

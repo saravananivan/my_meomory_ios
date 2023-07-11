@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Models{
+struct Models : Equatable{
     
     var imageIcons = ["cloud.heavyrain.fill", "car.fill" , "bus.doubledecker",
     "tram.fill", "bicycle", "bolt", "drop", "tortoise.fill", "candybarphone", "keyboard", "display", "macmini"]
@@ -53,8 +53,17 @@ struct Models{
         
 }
 
-enum Modes{
+enum Modes : Equatable{
     case easy
      case medium
      case hard
+    
+    var description : String {
+        switch self {
+        // Use Internationalization, as appropriate.
+        case .easy: return "Easy"
+        case .medium: return "Medium"
+        case .hard: return "Hard"
+        }
+    }
 }
