@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Models : Equatable{
+    let activeMode: Modes
     
     var imageIcons = ["cloud.heavyrain.fill", "car.fill" , "bus.doubledecker",
     "tram.fill", "bicycle", "bolt", "drop", "tortoise.fill", "candybarphone", "keyboard", "display", "macmini"]
@@ -29,7 +30,6 @@ struct Models : Equatable{
             return 6
         }
         return 6
-        
     }
     
     var column : Array<GridItem>{
@@ -45,10 +45,9 @@ struct Models : Equatable{
         return  Array(imageIcons[..<(imgCount/2)]) +  Array(imageIcons[..<(imgCount/2)])
     }
     
-    let activeMode: Modes
-    
     init(activeMode: Modes) {
         self.activeMode = activeMode
+        imageIcons.shuffle()
     }
         
 }

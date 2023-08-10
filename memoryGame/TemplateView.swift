@@ -1,14 +1,17 @@
 //
-//  ContentView.swift
+//  TemplateView.swift
 //  memoryGame
 //
-//  Created by Mac on 7/10/23.
+//  Created by Mac on 8/10/23.
 //
 
 import SwiftUI
+import PhotosUI
 
-struct ContentView: View {
+struct TemplateView: View {
     @EnvironmentObject var contentViewModel : ContentViewModel
+    @State var image: Image? = nil
+    @State var showImagePicker: Bool = false
     
     var body: some View {
         VStack{
@@ -16,41 +19,31 @@ struct ContentView: View {
                 LazyVGrid(columns: contentViewModel.model.column) {
                     ForEach(0..<contentViewModel.model.imgCount, id: \.self){ index in
                     Button(action: {
-                        print(index)
-                        self.contentViewModel.updateSelectButton(value:index)
+                        print("Image picker selecteddddd.......")
+                        //self.showImagePicker.toggle()
+                        showImagePicker = true
                     }, label: {
-                        Image(systemName: contentViewModel.model.imageSlice[index] )
+                        ZStack{}
                             .foregroundColor(contentViewModel.setForeground(index: index))
-                        .font(.largeTitle)
                             .padding(8)
                             .frame(maxWidth: gp.size.width/2, minHeight:  (gp.size.height - 80)/contentViewModel.model.rows)
                     })
                     .background(contentViewModel.setBackground(index: index))
                     .frame(maxWidth: gp.size.width/2, maxHeight: .infinity)
+                    .sheet(isPresented: $showImagePicker) {
+                                   ImagePicker(sourceType: .photoLibrary) { image in
+                                       self.image = Image(uiImage: image)
+                                   }
+                               }
                   }
                 }
             .padding()
             }
-            
-            HStack {
-                Text("Moves : \(contentViewModel.moves)")
-                   .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50)
-                   .foregroundColor(.black)
-                   .background(Color.white)
-                                
-                Text("Pairs : \(contentViewModel.matchedButtons.count/2)/\(contentViewModel.model.imgCount/2)")
-                   .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50)
-                   .foregroundColor(.black)
-                   .background(Color.white)
-            }
-            .padding(8)
-            .frame(maxHeight: 60,alignment: .bottom)
-            .background(Color.green)
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct TemplateView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
@@ -58,8 +51,4 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
-
-
-
-
 

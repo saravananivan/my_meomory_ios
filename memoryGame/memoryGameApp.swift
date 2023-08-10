@@ -10,32 +10,56 @@ import SwiftUI
 @main
 struct memoryGameApp: App {
     
-    @State var model : Models = Models(activeMode: Modes.easy)
+    @StateObject var contentViewModel : ContentViewModel = ContentViewModel()
+    @State private var isActive = false
     
     var body: some Scene {
         WindowGroup {
-           // ContentView()
             NavigationView{
-            ContentView(m: $model)
-                .navigationTitle(model.activeMode.description)
+                ContentView()
+                    .navigationTitle(contentViewModel.model.activeMode.description)
                 .toolbar{
-                    ToolbarItem{
+                    ToolbarItem(placement: .navigationBarTrailing){
                         Menu("Mode"){
                             Button("Easy"){
-                                model = Models(activeMode: Modes.easy)
+                                contentViewModel.reset(activeMode: Modes.easy)
                                 }
                             Button("Medium"){
-                                model = Models(activeMode: Modes.medium)
+                                contentViewModel.reset(activeMode: Modes.medium)
                                 }
                             Button("Hard"){
-                                model = Models(activeMode: Modes.hard)
+                                contentViewModel.reset(activeMode: Modes.hard)
                                 }
                           }
                     }
+                    ToolbarItem(placement: .navigationBarTrailing)  {
+                        Menu("New"){
+                                        Button(action: {
+                                            contentViewModel.reset(activeMode: Modes.easy)
+                                            isActive = true
+                                        }){
+                                            Text("Easy")
+                                        }
+                            Button(action: {
+                                contentViewModel.reset(activeMode: Modes.medium)
+                                isActive = true
+                            }){
+                                Text("Medium")
+                                }
+                            Button(action: {
+                                contentViewModel.reset(activeMode: Modes.hard)
+                                isActive = true
+                            }){
+                                Text("Hard")
+                                }
+                        }.background(NavigationLink(destination: TemplateView(),  isActive: $isActive){
+                            
+                        }.onAppear(){
+                            isActive = false
+                        })
+                    }
                 }
-            }
-
-            
+            }.environmentObject(contentViewModel)
         }
     }
 }
