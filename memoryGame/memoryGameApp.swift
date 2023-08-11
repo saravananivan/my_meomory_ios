@@ -52,11 +52,15 @@ struct memoryGameApp: App {
                             }){
                                 Text("Hard")
                                 }
-                        }.background(NavigationLink(destination: TemplateView(),  isActive: $isActive){
+                        }
+                        .background(NavigationLink(destination: TemplateView(),  isActive: $isActive){
                             
-                        }.onAppear(){
+                        }
+                       
+                        .onAppear(){
                             isActive = false
                         })
+                        
                     }
                 }
             }.environmentObject(contentViewModel)
